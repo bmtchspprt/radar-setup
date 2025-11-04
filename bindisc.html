@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BinDisc Emulator</title>
     
     <!-- PWA Meta Tags -->
@@ -56,6 +56,22 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        /* Remove any potential borders/outlines from device elements */
+        .device-wrapper,
+        .device-wrapper *,
+        #device-container,
+        #device-container *,
+        .device,
+        .device * {
+            outline: none !important;
+        }
+
+        .device-wrapper,
+        #device-container,
+        .device {
+            border: none !important;
         }
 
         html {
@@ -167,6 +183,43 @@
             line-height: 1.6;
         }
 
+        .previous-summary {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 2px solid rgba(118, 75, 162, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .previous-summary h2 {
+            color: #764ba2;
+            font-size: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .previous-summary-content {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .previous-summary-content .summary-item {
+            margin-bottom: 12px;
+            padding: 10px 0;
+            color: #555;
+            font-size: 15px;
+            line-height: 1.6;
+            border-bottom: 1px solid rgba(118, 75, 162, 0.1);
+        }
+
+        .previous-summary-content .summary-item:last-child {
+            border-bottom: none;
+            color: #2ecc71;
+            font-weight: bold;
+        }
+
         .sensor-selection {
             display: flex;
             flex-direction: column;
@@ -183,6 +236,8 @@
             font-weight: bold;
             border-radius: 12px;
             cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
             transition: all 0.3s;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
@@ -210,6 +265,8 @@
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
             transition: all 0.3s;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             white-space: nowrap;
@@ -219,13 +276,34 @@
             left: 20px;
         }
 
+        .next-sensor-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2100;
+            background: linear-gradient(145deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
 
-        .success-btn:hover {
+        .success-btn:hover,
+        .next-sensor-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .success-btn:active {
+        .success-btn:active,
+        .next-sensor-btn:active {
             transform: translateY(0);
         }
 
@@ -240,6 +318,40 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow: hidden;
+            max-width: 100%;
+            background: transparent;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        .device-wrapper:focus {
+            outline: none;
+            border: none;
+        }
+
+        .device-wrapper:focus-visible {
+            outline: none;
+            border: none;
+        }
+
+        #device-container {
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        #device-container:focus {
+            outline: none !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        #device-container:focus-visible {
+            outline: none !important;
+            border: none !important;
+            box-shadow: none !important;
         }
 
         /* Instruction overlay */
@@ -373,6 +485,8 @@
             height: 450px;
             background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%);
             border-radius: 50%;
+            border: none !important;
+            outline: none !important;
             box-shadow: 
                 inset 0 0 60px rgba(0, 0, 0, 0.4),
                 0 15px 50px rgba(0, 0, 0, 0.5);
@@ -381,7 +495,32 @@
             align-items: center;
             justify-content: flex-start;
             padding-top: 45px;
-            border: 2px solid #0f0f0f;
+            overflow: hidden;
+            max-width: 100%;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            isolation: isolate;
+        }
+
+        .device:focus {
+            outline: none !important;
+            border: none !important;
+        }
+
+        .device:focus-visible {
+            outline: none !important;
+            border: none !important;
+        }
+
+        .device:active {
+            outline: none !important;
+            border: none !important;
+        }
+
+        .device::selection {
+            background: transparent;
         }
 
         /* OPEN and LOCK labels removed per user request */
@@ -454,8 +593,12 @@
             box-shadow: 
                 inset 0 3px 8px rgba(0, 0, 0, 0.25),
                 0 2px 4px rgba(0, 0, 0, 0.2);
+            overflow-x: hidden;
+            overflow-y: auto;
+            max-width: 100%;
             font-family: 'Courier New', monospace;
-            overflow: hidden;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         /* Screen 1 - Sensor display */
@@ -464,6 +607,10 @@
             color: #2a2a2a;
             margin-bottom: 8px;
             font-weight: 600;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            overflow-x: hidden;
+            max-width: 100%;
         }
 
         .screen-line {
@@ -507,12 +654,20 @@
             font-size: 13px;
             color: #000;
             margin-bottom: 10px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            overflow-x: hidden;
+            max-width: 100%;
         }
 
         .distance-value-large {
             font-size: 28px;
             font-weight: bold;
             color: #000;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            overflow-x: hidden;
+            max-width: 100%;
         }
 
         .distance-value-unit {
@@ -550,6 +705,14 @@
             align-items: flex-start;
             gap: 15px;
             margin: 8px 0;
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
+        .distance-flex-container > div {
+            min-width: 0;
+            max-width: 100%;
+            overflow-x: hidden;
         }
 
         .edit-value-large {
@@ -867,7 +1030,6 @@
             height: 300px;
             background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%);
             border-radius: 50%;
-            border: 2px solid #0f0f0f;
             z-index: 1;
             display: flex;
             flex-direction: column;
@@ -983,6 +1145,8 @@
             font-size: 11px;
             font-weight: bold;
             cursor: default;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
             box-shadow: 
                 inset 0 -1px 3px rgba(0, 0, 0, 0.3),
                 0 2px 5px rgba(0, 0, 0, 0.3);
@@ -1050,6 +1214,10 @@
             font-size: 14px;
             color: #000;
             font-weight: 500;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            overflow-x: hidden;
+            max-width: 100%;
             border-radius: 3px;
             cursor: pointer;
             transition: all 0.2s;
@@ -1174,6 +1342,10 @@
             color: #000;
             margin-bottom: 6px;
             border-bottom: 1px solid #999;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            overflow-x: hidden;
+            max-width: 100%;
             padding-bottom: 3px;
         }
 
@@ -1183,6 +1355,10 @@
             font-size: 13px;
             color: #000;
             font-weight: 400;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            overflow-x: hidden;
+            max-width: 100%;
             border-radius: 3px;
             transition: all 0.2s;
         }
@@ -1210,6 +1386,8 @@
             font-size: 15px;
             font-weight: bold;
             cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
             box-shadow: 
                 inset 0 -2px 4px rgba(0, 0, 0, 0.3),
                 0 3px 8px rgba(0, 0, 0, 0.3);
@@ -1267,6 +1445,13 @@
 
             .recap-demo-btn {
                 left: 15px;
+            }
+
+            .next-sensor-btn {
+                right: 15px;
+                padding: 10px 18px;
+                font-size: 12px;
+                top: 15px;
             }
 
 
@@ -1338,10 +1523,16 @@
 
             .distance-value-large {
                 font-size: 20px;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                overflow-x: hidden;
+                max-width: 100%;
             }
 
             .distance-value-unit {
                 font-size: 14px;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
             }
 
             .distance-approx {
@@ -1367,6 +1558,14 @@
             .distance-flex-container {
                 gap: 10px;
                 margin: 5px 0;
+                overflow-x: hidden;
+                max-width: 100%;
+            }
+
+            .distance-flex-container > div {
+                min-width: 0;
+                max-width: 100%;
+                overflow-x: hidden;
             }
 
             /* Edit screens mobile adjustments */
@@ -1438,6 +1637,13 @@
                 left: 10px;
             }
 
+            .next-sensor-btn {
+                right: 10px;
+                padding: 8px 14px;
+                font-size: 11px;
+                top: 10px;
+            }
+
 
             .device {
                 width: 280px;
@@ -1498,10 +1704,16 @@
 
             .distance-value-large {
                 font-size: 16px;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                overflow-x: hidden;
+                max-width: 100%;
             }
 
             .distance-value-unit {
                 font-size: 12px;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
             }
 
             .distance-approx {
@@ -1527,6 +1739,14 @@
             .distance-flex-container {
                 gap: 8px;
                 margin: 4px 0;
+                overflow-x: hidden;
+                max-width: 100%;
+            }
+
+            .distance-flex-container > div {
+                min-width: 0;
+                max-width: 100%;
+                overflow-x: hidden;
             }
 
             /* Edit screens small mobile adjustments */
@@ -1589,6 +1809,14 @@
         <div id="home-page" class="home-page">
         <h1>BinDisc Setup Wizard</h1>
         <p>Welcome! Let's configure your BinDisc sensor. Please select your sensor type to begin.</p>
+        
+        <!-- Previous Sensor Summary -->
+        <div id="previous-summary" class="previous-summary" style="display: none;">
+            <h2>Previous Sensor Configuration</h2>
+            <div id="previous-summary-content" class="previous-summary-content"></div>
+            <button class="sensor-btn" id="start-new-config-btn" style="margin-top: 20px; width: 100%;" onclick="startNewConfiguration()">Start New Configuration</button>
+        </div>
+        
         <div class="sensor-selection">
             <button class="sensor-btn" onclick="startSetup('HART')">HART Sensor</button>
             <button class="sensor-btn" onclick="startSetup('MODBUS')">MODBUS Sensor</button>
@@ -1642,15 +1870,13 @@
                 </div>
             </div>
 
-            <div class="recap-card">
-                <h2>Summary</h2>
-                <div id="success-summary" class="success-summary"></div>
-            </div>
+            <!-- Next Sensor Button -->
+            <button class="next-sensor-btn" id="next-sensor-btn" style="display: none;">Next Sensor</button>
         </div>
     </div>
 
-    <div class="device-wrapper hidden">
-    <div id="device-container" class="device hidden">
+    <div class="device-wrapper hidden" tabindex="-1">
+    <div id="device-container" class="device hidden" tabindex="-1">
         <div class="twist-label">TWIST</div>
         
         <div class="brand-logo">
@@ -1967,7 +2193,7 @@
             <button class="button" id="ok-btn">OK</button>
         </div>
     </div>
-    <button class="success-btn recap-demo-btn" id="recap-demo-btn">Recap Demo</button>
+    <button class="success-btn recap-demo-btn" id="recap-demo-btn">Restart Demo</button>
     </div>
 
     <script>
@@ -1976,15 +2202,48 @@
         let returningForNextStep = false; // Track when returning to menu/setup for next config step
         let allowedButton = null; // Which button is allowed in guide mode (null = all allowed)
 
+        function startNewConfiguration() {
+            // Hide summary and show sensor selection
+            const previousSummary = document.getElementById('previous-summary');
+            const sensorSelection = document.querySelector('.sensor-selection');
+            const homePage = document.getElementById('home-page');
+            
+            if(previousSummary) {
+                previousSummary.style.display = 'none';
+            }
+            
+            if(sensorSelection) {
+                sensorSelection.style.display = 'flex';
+            }
+            
+            // Show welcome message
+            const welcomeText = homePage ? homePage.querySelector('h1') : null;
+            const welcomePara = homePage ? homePage.querySelector('p') : null;
+            if(welcomeText) welcomeText.style.display = 'block';
+            if(welcomePara) welcomePara.style.display = 'block';
+            
+            // Clear the stored summary
+            window.lastSensorSummary = null;
+        }
+
         function startSetup(sensorType) {
             selectedSensorType = sensorType;
             instructionStep = 0;
+            
+            // Hide summary if showing
+            const previousSummary = document.getElementById('previous-summary');
+            if(previousSummary) {
+                previousSummary.style.display = 'none';
+            }
             
             // Hide header/logo
             const headerContainer = document.querySelector('.header-container');
             if(headerContainer) {
                 headerContainer.style.display = 'none';
             }
+            
+            // Remove locked class from device to ensure it's not grayed out
+            document.getElementById('device-container').classList.remove('locked');
             
             // Hide home page, show device
             document.getElementById('home-page').classList.add('hidden');
@@ -2191,10 +2450,26 @@
                 ];
             }
             
-            const summaryContainer = document.getElementById('success-summary');
-            if(summaryContainer) {
-                summaryContainer.innerHTML = summaryLines.map(line => `<div>${line}</div>`).join('');
+            // Get distance values for ANALOG sensors
+            let distanceAValue = null;
+            let distanceBValue = null;
+            if (sensorType === 'ANALOG') {
+                const distanceAString = distanceAFeet.join('').substring(0, 3) + '.' + distanceAFeet.join('').substring(3);
+                const distanceBString = distanceBFeet.join('').substring(0, 3) + '.' + distanceBFeet.join('').substring(3);
+                distanceAValue = parseFloat(distanceAString).toFixed(2);
+                distanceBValue = parseFloat(distanceBString).toFixed(2);
             }
+            
+            // Store summary data globally for display on home page
+            window.lastSensorSummary = {
+                sensorType: sensorType,
+                summaryLines: summaryLines,
+                mediumType: mediumType,
+                vesselValue: vesselValue,
+                hartAddress: sensorType === 'HART' ? (hartAddress[0] * 10 + hartAddress[1]) : null,
+                distanceA: distanceAValue,
+                distanceB: distanceBValue
+            };
             
             const overlay = document.getElementById('success-overlay');
             if(overlay) {
@@ -2209,7 +2484,6 @@
                 const checkmarkPath = overlay.querySelector('.checkmark-path');
                 const headline = overlay.querySelector('.headline');
                 const subhead = overlay.querySelector('.subhead');
-                const recapCard = overlay.querySelector('.recap-card');
                 const bindiscWrapper = overlay.querySelector('.bindisc-wrapper');
                 
                 if(checkmarkCircle) {
@@ -2237,10 +2511,11 @@
                     void bindiscWrapper.offsetWidth;
                     bindiscWrapper.style.animation = 'fadeInScale 0.8s ease-out 0.4s forwards';
                 }
-                if(recapCard) {
-                    recapCard.style.animation = 'none';
-                    void recapCard.offsetWidth;
-                    recapCard.style.animation = 'slide-up 0.6s cubic-bezier(0.19, 1, 0.22, 1) 1.2s forwards';
+                
+                // Show Next Sensor button
+                const nextSensorBtn = document.getElementById('next-sensor-btn');
+                if(nextSensorBtn) {
+                    nextSensorBtn.style.display = 'block';
                 }
             }
         }
@@ -2257,12 +2532,94 @@
             recapBtn.style.display = 'block';
         }
 
+        function showNextSensor() {
+            // Hide success overlay
+            const successOverlay = document.getElementById('success-overlay');
+            if(successOverlay) {
+                successOverlay.style.display = 'none';
+                successOverlay.classList.remove('show');
+            }
+
+            // Hide Next Sensor button
+            const nextSensorBtn = document.getElementById('next-sensor-btn');
+            if(nextSensorBtn) {
+                nextSensorBtn.style.display = 'none';
+            }
+
+            // Show header/logo again
+            const headerContainer = document.querySelector('.header-container');
+            if(headerContainer) {
+                headerContainer.style.display = 'flex';
+            }
+
+            // Remove locked class from device
+            document.getElementById('device-container').classList.remove('locked');
+
+            // Hide device and show home page
+            document.getElementById('device-container').classList.add('hidden');
+            document.querySelector('.device-wrapper').classList.add('hidden');
+            document.getElementById('home-page').classList.remove('hidden');
+            
+            // Display previous sensor summary (recap)
+            const previousSummary = document.getElementById('previous-summary');
+            const previousSummaryContent = document.getElementById('previous-summary-content');
+            const sensorSelection = document.querySelector('.sensor-selection');
+            
+            if(window.lastSensorSummary && previousSummary && previousSummaryContent) {
+                const summary = window.lastSensorSummary;
+                let html = '';
+                
+                // Display the step-by-step summary (faithful copy)
+                if(summary.summaryLines && summary.summaryLines.length > 0) {
+                    summary.summaryLines.forEach((line, index) => {
+                        html += `<div class="summary-item">${line}</div>`;
+                    });
+                }
+                
+                previousSummaryContent.innerHTML = html;
+                previousSummary.style.display = 'block';
+                
+                // Hide sensor selection and welcome message when showing summary
+                if(sensorSelection) {
+                    sensorSelection.style.display = 'none';
+                }
+                
+                // Hide welcome message
+                const homePage = document.getElementById('home-page');
+                const welcomeText = homePage ? homePage.querySelector('h1') : null;
+                const welcomePara = homePage ? homePage.querySelector('p') : null;
+                if(welcomeText) welcomeText.style.display = 'none';
+                if(welcomePara) welcomePara.style.display = 'none';
+                
+                // Scroll to top to prevent overlap
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                // Also scroll the main content area if needed
+                const mainContent = document.querySelector('.main-content');
+                if(mainContent) {
+                    mainContent.scrollTop = 0;
+                }
+            }
+            
+            // Hide success button
+            const recapBtn = document.getElementById('recap-demo-btn');
+            if(recapBtn) recapBtn.style.display = 'none';
+
+            // Clear instruction overlay
+            clearInstruction();
+        }
+
         function restartDemo() {
             // Hide success overlay
             const successOverlay = document.getElementById('success-overlay');
             if(successOverlay) {
                 successOverlay.style.display = 'none';
                 successOverlay.classList.remove('show');
+            }
+
+            // Hide Next Sensor button
+            const nextSensorBtn = document.getElementById('next-sensor-btn');
+            if(nextSensorBtn) {
+                nextSensorBtn.style.display = 'none';
             }
 
             // Show header/logo again
@@ -2275,6 +2632,26 @@
             document.getElementById('device-container').classList.add('hidden');
             document.querySelector('.device-wrapper').classList.add('hidden');
             document.getElementById('home-page').classList.remove('hidden');
+            
+            // Hide summary and show sensor selection (restart - no recap)
+            const previousSummary = document.getElementById('previous-summary');
+            const sensorSelection = document.querySelector('.sensor-selection');
+            
+            if(previousSummary) {
+                previousSummary.style.display = 'none';
+            }
+            
+            // Show sensor selection and welcome message
+            if(sensorSelection) {
+                sensorSelection.style.display = 'flex';
+            }
+            
+            // Show welcome message
+            const homePage = document.getElementById('home-page');
+            const welcomeText = homePage ? homePage.querySelector('h1') : null;
+            const welcomePara = homePage ? homePage.querySelector('p') : null;
+            if(welcomeText) welcomeText.style.display = 'block';
+            if(welcomePara) welcomePara.style.display = 'block';
             
             // Hide success button
             const recapBtn = document.getElementById('recap-demo-btn');
@@ -2305,6 +2682,9 @@
             distanceBFeetDigit = 0;
             hartAddressDigit = 0;
             falseSignalExists = false;
+            
+            // Clear the stored summary when restarting
+            window.lastSensorSummary = null;
         }
 
         let currentScreen = 1;
@@ -3452,9 +3832,14 @@
             }
         });
 
-        // Recap Demo button
+        // Restart Demo button - goes back to sensor selection without summary
         document.getElementById('recap-demo-btn').addEventListener('click', () => {
             restartDemo();
+        });
+
+        // Next Sensor button - shows summary/recap
+        document.getElementById('next-sensor-btn').addEventListener('click', () => {
+            showNextSensor();
         });
 
         // Initial state
