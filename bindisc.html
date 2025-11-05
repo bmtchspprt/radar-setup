@@ -100,17 +100,7 @@
         }
 
         .header-container {
-            background-color: white;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 200;
+            display: none !important;
         }
 
         .main-content {
@@ -122,6 +112,11 @@
             padding: 20px;
             min-height: 100vh;
             margin-top: 0;
+        }
+
+        /* Keep default gradient background when showing previous summary */
+        .main-content.showing-summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         /* Mobile: Position BinDisc where it was before header was added */
@@ -152,18 +147,29 @@
             z-index: 100;
         }
 
-        .header-logo {
-            max-width: 250px;
+        /* Remove white background when showing summary */
+        .home-page.showing-summary {
+            background: transparent;
+            box-shadow: none;
+            padding: 0;
+            max-width: 100%;
             width: 100%;
-            height: auto;
         }
 
-        /* Hide header on desktop */
+        .header-logo {
+            max-width: 250px;
+            width: auto;
+            height: auto;
+            max-height: 80px;
+            display: block;
+            visibility: visible !important;
+            opacity: 1 !important;
+            flex-shrink: 0;
+            object-fit: contain;
+        }
+
+        /* Desktop styles */
         @media (min-width: 769px) {
-            .header-container {
-                display: none;
-            }
-            
             .main-content {
                 margin-top: 0;
                 min-height: 100vh;
@@ -184,40 +190,83 @@
         }
 
         .previous-summary {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            border: 2px solid rgba(118, 75, 162, 0.3);
+            background: #E8E8E8;
+            border: none;
+            outline: none;
             border-radius: 12px;
-            padding: 25px;
+            padding: 30px;
             margin-bottom: 30px;
             text-align: left;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         }
 
         .previous-summary h2 {
-            color: #764ba2;
-            font-size: 20px;
-            margin-bottom: 15px;
-            text-align: center;
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 20px;
+            text-align: left;
+            font-weight: 600;
         }
 
         .previous-summary-content {
             color: #555;
             font-size: 14px;
             line-height: 1.8;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         }
 
         .previous-summary-content .summary-item {
-            margin-bottom: 12px;
-            padding: 10px 0;
+            margin-bottom: 0;
+            padding: 12px 15px;
             color: #555;
-            font-size: 15px;
-            line-height: 1.6;
-            border-bottom: 1px solid rgba(118, 75, 162, 0.1);
+            font-size: 14px;
+            line-height: 1.7;
+            border-bottom: none;
+        }
+
+        /* Zebra striping for summary items */
+        .previous-summary-content .summary-item:nth-child(even) {
+            background-color: #E0E0E0;
+        }
+
+        .previous-summary-content .summary-item:nth-child(odd) {
+            background-color: #E8E8E8;
+        }
+
+        .previous-summary-content .summary-item:first-child {
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
         }
 
         .previous-summary-content .summary-item:last-child {
-            border-bottom: none;
-            color: #2ecc71;
-            font-weight: bold;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+            margin-bottom: 0;
+        }
+
+        /* Status indicator styling */
+        .previous-summary-content .summary-item.status-complete {
+            background-color: #F0F9F8;
+            color: #2D7D7A;
+            font-weight: 500;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .previous-summary-content .summary-item.status-complete::before {
+            content: '✔';
+            position: absolute;
+            left: 10px;
+            color: #2D7D7A;
+        }
+
+        .previous-summary-content .summary-item.status-complete:nth-child(even) {
+            background-color: #F0F9F8;
+        }
+
+        .previous-summary-content .summary-item.status-complete:nth-child(odd) {
+            background-color: #F0F9F8;
         }
 
         .sensor-selection {
@@ -240,6 +289,52 @@
             -webkit-tap-highlight-color: transparent;
             transition: all 0.3s;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Styling for Start New Configuration button in summary */
+        .previous-summary .sensor-btn {
+            background: linear-gradient(145deg, #5a4a7a, #6b5b8a);
+            box-shadow: 0 2px 6px rgba(90, 74, 122, 0.3);
+            margin-top: 25px;
+        }
+
+        .previous-summary .sensor-btn:hover {
+            box-shadow: 0 4px 12px rgba(90, 74, 122, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* Desktop: Make previous summary more compact and narrower */
+        @media (min-width: 769px) {
+            .previous-summary {
+                padding: 15px 20px;
+                margin-bottom: 15px;
+                max-width: 500px;
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .previous-summary h2 {
+                font-size: 18px;
+                margin-bottom: 12px;
+            }
+
+            .previous-summary-content {
+                font-size: 12px;
+                line-height: 1.5;
+            }
+
+            .previous-summary-content .summary-item {
+                padding: 8px 12px;
+                font-size: 12px;
+                line-height: 1.4;
+            }
+
+            .previous-summary .sensor-btn {
+                margin-top: 15px;
+                padding: 12px 20px;
+                font-size: 16px;
+            }
         }
 
         .sensor-btn:hover {
@@ -1797,7 +1892,7 @@
 <body>
     <!-- Header with Logo (Mobile only) -->
     <div class="header-container">
-        <img src="BinMaster.png" alt="BinMaster Logo" class="header-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <img src="BinMaster.png"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" alt="BinMaster Logo" class="header-logo">
         <div class="header-logo-text" style="display:none; color: #764ba2; font-size: 24px; font-weight: bold;">
             <span style="color: #667eea;">BIN</span><span style="color: #764ba2;">MASTER</span>®
         </div>
@@ -2203,10 +2298,19 @@
         let allowedButton = null; // Which button is allowed in guide mode (null = all allowed)
 
         function startNewConfiguration() {
+            // Remove showing-summary class from main-content and home-page
+            const mainContent = document.querySelector('.main-content');
+            if(mainContent) {
+                mainContent.classList.remove('showing-summary');
+            }
+            const homePage = document.getElementById('home-page');
+            if(homePage) {
+                homePage.classList.remove('showing-summary');
+            }
+            
             // Hide summary and show sensor selection
             const previousSummary = document.getElementById('previous-summary');
             const sensorSelection = document.querySelector('.sensor-selection');
-            const homePage = document.getElementById('home-page');
             
             if(previousSummary) {
                 previousSummary.style.display = 'none';
@@ -2569,10 +2673,21 @@
                 const summary = window.lastSensorSummary;
                 let html = '';
                 
-                // Display the step-by-step summary (faithful copy)
+                // Add showing-summary class to main-content for neutral background
+                const mainContent = document.querySelector('.main-content');
+                if(mainContent) {
+                    mainContent.classList.add('showing-summary');
+                }
+                
+                // Display the step-by-step summary (keep steps as numbered items)
                 if(summary.summaryLines && summary.summaryLines.length > 0) {
                     summary.summaryLines.forEach((line, index) => {
-                        html += `<div class="summary-item">${line}</div>`;
+                        // Check if this is a "Complete!" status item
+                        const isComplete = line.includes('Complete!');
+                        
+                        // Add summary item with appropriate class
+                        const itemClass = isComplete ? 'summary-item status-complete' : 'summary-item';
+                        html += `<div class="${itemClass}">${line}</div>`;
                     });
                 }
                 
@@ -2584,8 +2699,11 @@
                     sensorSelection.style.display = 'none';
                 }
                 
-                // Hide welcome message
+                // Hide welcome message and remove white background from home-page
                 const homePage = document.getElementById('home-page');
+                if(homePage) {
+                    homePage.classList.add('showing-summary');
+                }
                 const welcomeText = homePage ? homePage.querySelector('h1') : null;
                 const welcomePara = homePage ? homePage.querySelector('p') : null;
                 if(welcomeText) welcomeText.style.display = 'none';
@@ -2594,7 +2712,6 @@
                 // Scroll to top to prevent overlap
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 // Also scroll the main content area if needed
-                const mainContent = document.querySelector('.main-content');
                 if(mainContent) {
                     mainContent.scrollTop = 0;
                 }
@@ -2609,6 +2726,16 @@
         }
 
         function restartDemo() {
+            // Remove showing-summary class from main-content and home-page
+            const mainContent = document.querySelector('.main-content');
+            if(mainContent) {
+                mainContent.classList.remove('showing-summary');
+            }
+            const homePage = document.getElementById('home-page');
+            if(homePage) {
+                homePage.classList.remove('showing-summary');
+            }
+            
             // Hide success overlay
             const successOverlay = document.getElementById('success-overlay');
             if(successOverlay) {
@@ -2647,7 +2774,6 @@
             }
             
             // Show welcome message
-            const homePage = document.getElementById('home-page');
             const welcomeText = homePage ? homePage.querySelector('h1') : null;
             const welcomePara = homePage ? homePage.querySelector('p') : null;
             if(welcomeText) welcomeText.style.display = 'block';
