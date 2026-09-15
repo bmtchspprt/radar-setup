@@ -1,0 +1,19 @@
+{
+  "name": "BinMaster BinDisc Setup Guide",
+  "short_name": "BinDisc",
+  "description": "Guided setup trainer for the BinMaster BinDisc level sensor.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#667eea",
+  "theme_color": "#667eea",
+  "icons": [
+    {
+      "src": "assets/branding/app-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
